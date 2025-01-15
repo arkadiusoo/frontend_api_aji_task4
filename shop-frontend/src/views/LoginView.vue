@@ -1,7 +1,7 @@
 <template>
   <div>
     <LoginForm v-if="!isLoggedIn" :error="error" @submit="loginUser" />
-    <LogoutButton v-else />
+    <LogoutButton v-else :onLogout="logoutUser" />
   </div>
 </template>
 
@@ -17,13 +17,9 @@ export default {
   },
   data() {
     return {
-      error: null, // Przechowuje błędy logowania
+      error: null,
+      isLoggedIn: !!localStorage.getItem("token"),
     };
-  },
-  computed: {
-    isLoggedIn() {
-      return !!localStorage.getItem("token"); // Sprawdza, czy token istnieje
-    },
   },
   methods: {
     async loginUser(credentials) {
@@ -36,6 +32,7 @@ export default {
         !credentials.username ||
         !credentials.password
       ) {
+        console.log("Invalid credentials:", credentials);
         this.error = "Username and password are required.";
         return;
       }
@@ -47,14 +44,15 @@ export default {
 
         const token = response.data.token;
         localStorage.setItem("token", token);
-        window.location.reload();
-
-        // Przekierowanie na stronę główną
-        this.$router.push("/login");
+        this.isLoggedIn = true;
       } catch (err) {
         console.error("Loging in failed:", err.message);
         this.error = "Invalid username or password.";
       }
+    },
+    logoutUser() {
+      localStorage.removeItem("token");
+      this.isLoggedIn = false;
     },
   },
 };

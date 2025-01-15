@@ -1,14 +1,21 @@
 <template>
-  <h2>Welcome! You are logged in.</h2>
-  <button class="btn btn-danger" @click="logout">Logout</button>
+  <div>
+    <h2>Welcome! You are logged in.</h2>
+    <button class="btn btn-danger" @click="logout">Logout</button>
+  </div>
 </template>
 
 <script>
 export default {
+  props: {
+    onLogout: {
+      type: Function,
+      required: true,
+    },
+  },
   methods: {
     logout() {
-      localStorage.removeItem("token");
-      window.location.reload();
+      this.onLogout(); // Wywołanie przekazanej funkcji wylogowania
     },
   },
 };
