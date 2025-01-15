@@ -1,19 +1,10 @@
 <template>
   <div class="container mt-4">
     <h1 class="text-center mb-4">Product Table</h1>
-    <div v-if="!hasAccess" class="alert alert-danger text-center">
-      You must be logged in to view this page.
-      <br />
-      <router-link to="/login" class="btn btn-primary mt-3"
-        >Go to Login</router-link
-      >
-    </div>
+    <div v-if="error" class="alert alert-danger">{{ error }}</div>
+    <div v-if="loading" class="text-center">Loading...</div>
     <div v-else>
-      <div v-if="error" class="alert alert-danger">{{ error }}</div>
-      <div v-if="loading" class="text-center">Loading...</div>
-      <div v-else>
-        <ProductsTable :products="products" />
-      </div>
+      <ProductsTable :products="products" :isClient="isClient" />
     </div>
   </div>
 </template>
@@ -31,21 +22,18 @@ export default {
       products: [],
       loading: true,
       error: null,
+      isClient: false, // Flaga roli użytkownika
     };
   },
-  computed: {
-    hasAccess() {
-      return !!localStorage.getItem("token");
-    },
-  },
   async created() {
-    if (!this.hasAccess) {
-      this.loading = false;
-      return;
-    }
     try {
       const response = await getProducts();
       this.products = response.data;
+
+      // Ustawienie roli użytkownika na podstawie localStorage
+      const userRole = localStorage.getItem("role");
+      console.log(userRole); // Zakładam, że rola jest przechowywana w localStorage
+      this.isClient = userRole === "CLIENT";
     } catch (err) {
       console.error("Error fetching products:", err.message);
       this.error = "Failed to load products. Please try again later.";
