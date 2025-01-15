@@ -44,10 +44,10 @@ export default {
 
         const token = response.data.token;
         localStorage.setItem("token", token);
+        this.$router.push("/products");
         this.isLoggedIn = true;
       } catch (err) {
-        console.error("Loging in failed:", err.message);
-        this.error = "Invalid username or password.";
+        console.error("Login failed:", err.message);
       }
     },
     logoutUser() {

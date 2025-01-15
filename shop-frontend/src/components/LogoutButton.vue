@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     logout() {
-      this.onLogout(); // Wywołanie przekazanej funkcji wylogowania
+      this.onLogout();
     },
   },
 };

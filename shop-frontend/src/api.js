@@ -90,15 +90,20 @@ apiClient.interceptors.response.use(
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
+      if (originalRequest.url.includes("/auth/login")) {
+        return Promise.reject(error);
+      }
+
       try {
         const newToken = await refreshTokenHandler();
         apiClient.defaults.headers.Authorization = `Bearer ${newToken}`;
-        return apiClient(originalRequest); // Ponów oryginalne żądanie
+        return apiClient(originalRequest);
       } catch (refreshError) {
         console.error("Token refresh failed:", refreshError.message);
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
-        window.location = "/login"; // Przekierowanie na login
+        window.location = "/login";
       }
     }
 
