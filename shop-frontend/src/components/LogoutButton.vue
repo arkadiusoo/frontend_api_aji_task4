@@ -8,7 +8,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem("token");
-      this.$router.push("/");
+      this.$router.push("/login");
     },
   },
 };

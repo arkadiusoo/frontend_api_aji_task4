@@ -31,10 +31,6 @@
 <script>
 export default {
   props: {
-    credentials: {
-      type: Object,
-      required: true,
-    },
     error: {
       type: String,
       required: false,
@@ -42,13 +38,27 @@ export default {
   },
   data() {
     return {
-      localCredentials: { ...this.credentials },
+      // Lokalne dane formularza
+      localCredentials: {
+        username: "",
+        password: "",
+      },
     };
   },
   methods: {
     handleSubmit() {
-      console.log("Form submitted with:", this.localCredentials); // Debugowanie
-      this.$emit("submit", { ...this.localCredentials });
+      try {
+        this.$emit("submit", { ...this.localCredentials });
+
+        // Reset danych
+        this.resetCredentials();
+      } catch (error) {
+        console.error("Błąd w handleSubmit:", error);
+      }
+    },
+    resetCredentials() {
+      this.localCredentials.username = "";
+      this.localCredentials.password = "";
     },
   },
 };
