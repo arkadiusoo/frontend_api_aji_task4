@@ -100,7 +100,7 @@ export default {
 .filter-field {
   width: 20%;
   text-align: center;
-
+}
 .table {
   margin-top: 20px;
 }
