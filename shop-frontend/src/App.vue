@@ -2,8 +2,10 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
+    <router-link to="/login">Login</router-link>
   </nav>
   <ProductsTable />
+  <Login />
   <router-view />
 </template>
 
@@ -31,11 +33,13 @@ nav a.router-link-exact-active {
 </style>
 
 <script>
+import Login from "./components/Login.vue";
 import ProductsTable from "./components/ProductsTable.vue";
 
 export default {
   components: {
     ProductsTable,
+    Login,
   },
 };
 </script>

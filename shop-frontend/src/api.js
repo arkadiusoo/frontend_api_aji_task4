@@ -71,3 +71,37 @@ export const login = (credentials) =>
   apiClient.post("/auth/login", credentials);
 export const refreshToken = (refreshTokenData) =>
   apiClient.post("/auth/refresh", refreshTokenData);
+
+export const refreshTokenHandler = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) throw new Error("Refresh token missing.");
+
+  const response = await refreshToken({ token: refreshToken });
+  const newToken = response.data.token;
+
+  localStorage.setItem("token", newToken);
+  return newToken;
+};
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const newToken = await refreshTokenHandler();
+        apiClient.defaults.headers.Authorization = `Bearer ${newToken}`;
+        return apiClient(originalRequest); // Ponów oryginalne żądanie
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError.message);
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        window.location = "/login"; // Przekierowanie na login
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
