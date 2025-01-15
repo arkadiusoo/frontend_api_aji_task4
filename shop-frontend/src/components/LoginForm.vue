@@ -2,13 +2,13 @@
   <div class="container mt-5">
     <h1 class="text-center">Login</h1>
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
-    <form @submit.prevent="loginUser">
+    <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="username">Username</label>
         <input
           type="text"
           id="username"
-          v-model="credentials.username"
+          v-model="localCredentials.username"
           class="form-control"
           required
         />
@@ -18,7 +18,7 @@
         <input
           type="password"
           id="password"
-          v-model="credentials.password"
+          v-model="localCredentials.password"
           class="form-control"
           required
         />
@@ -29,30 +29,26 @@
 </template>
 
 <script>
-import { login } from "../api";
-
 export default {
+  props: {
+    credentials: {
+      type: Object,
+      required: true,
+    },
+    error: {
+      type: String,
+      required: false,
+    },
+  },
   data() {
     return {
-      credentials: {
-        username: "",
-        password: "",
-      },
-      error: null,
+      localCredentials: { ...this.credentials },
     };
   },
   methods: {
-    async loginUser() {
-      try {
-        this.error = null;
-        const response = await login(this.credentials);
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        this.$router.push("/");
-      } catch (err) {
-        console.error("Login failed:", err.message);
-        this.error = "Invalid username or password.";
-      }
+    handleSubmit() {
+      console.log("Form submitted with:", this.localCredentials); // Debugowanie
+      this.$emit("submit", { ...this.localCredentials });
     },
   },
 };
