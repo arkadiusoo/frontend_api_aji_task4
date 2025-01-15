@@ -47,6 +47,7 @@ export default {
 
         const token = response.data.token;
         localStorage.setItem("token", token);
+        window.location.reload();
 
         // Przekierowanie na stronę główną
         this.$router.push("/login");
