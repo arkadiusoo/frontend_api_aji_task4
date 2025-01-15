@@ -71,24 +71,3 @@ export const login = (credentials) =>
   apiClient.post("/auth/login", credentials);
 export const refreshToken = (refreshTokenData) =>
   apiClient.post("/auth/refresh", refreshTokenData);
-
-export {
-  getProducts,
-  getProduct,
-  getSeoDescription,
-  createProduct,
-  updateProduct,
-  initializeProducts,
-  getStatues,
-  fetchAllOrders,
-  fetchOrdersByUsername,
-  fetchOrderById,
-  updateOrderStatus,
-  fetchOrderStatus,
-  fetchOrdersByStatus,
-  createOrder,
-  addOpinion,
-  fetchCategories,
-  login,
-  refreshToken,
-};

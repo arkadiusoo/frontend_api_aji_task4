@@ -3,6 +3,7 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
+  <ProductsTable />
   <router-view />
 </template>
 
@@ -28,3 +29,13 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+
+<script>
+import ProductsTable from "./components/ProductsTable.vue";
+
+export default {
+  components: {
+    ProductsTable,
+  },
+};
+</script>
