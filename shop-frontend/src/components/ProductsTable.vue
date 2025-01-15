@@ -8,7 +8,7 @@
           <th>Price</th>
           <th>Weight</th>
           <th>Category</th>
-          <th v-if="isClient">Actions</th>
+          <th v-if="isClient || isWorker">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -18,8 +18,9 @@
           <td>{{ product.price_unit }} USD</td>
           <td>{{ product.weight_unit }} kg</td>
           <td>{{ product.category }}</td>
-          <td v-if="isClient">
-            <BuyButton :productId="product.id" />
+          <td v-if="isClient || isWorker">
+            <BuyButton v-if="isClient" :productId="product.id" />
+            <EditButton v-if="isWorker" :productId="product.id" />
           </td>
         </tr>
       </tbody>
@@ -29,10 +30,12 @@
 
 <script>
 import BuyButton from "./BuyButton.vue";
+import EditButton from "./EditButton.vue";
 
 export default {
   components: {
     BuyButton,
+    EditButton,
   },
   props: {
     products: {
@@ -42,6 +45,10 @@ export default {
     isClient: {
       type: Boolean,
       required: true,
+    },
+    isWorker: {
+      type: Boolean,
+      required: false,
     },
   },
 };

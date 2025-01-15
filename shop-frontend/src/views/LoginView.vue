@@ -41,9 +41,10 @@ export default {
         this.error = null;
 
         const response = await login(credentials);
-
+        const role = response.data.role;
         const token = response.data.token;
         localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
         this.$router.push("/products");
         this.isLoggedIn = true;
       } catch (err) {

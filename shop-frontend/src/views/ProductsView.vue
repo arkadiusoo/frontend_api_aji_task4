@@ -4,7 +4,11 @@
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
     <div v-if="loading" class="text-center">Loading...</div>
     <div v-else>
-      <ProductsTable :products="products" :isClient="isClient" />
+      <ProductsTable
+        :products="products"
+        :isClient="isClient"
+        :isWorker="isWorker"
+      />
     </div>
   </div>
 </template>
@@ -22,7 +26,8 @@ export default {
       products: [],
       loading: true,
       error: null,
-      isClient: false, // Flaga roli użytkownika
+      isClient: false,
+      isWorker: false,
     };
   },
   async created() {
@@ -30,10 +35,10 @@ export default {
       const response = await getProducts();
       this.products = response.data;
 
-      // Ustawienie roli użytkownika na podstawie localStorage
+      // Pobierz rolę użytkownika z localStorage
       const userRole = localStorage.getItem("role");
-      console.log(userRole); // Zakładam, że rola jest przechowywana w localStorage
       this.isClient = userRole === "CLIENT";
+      this.isWorker = userRole === "WORKER";
     } catch (err) {
       console.error("Error fetching products:", err.message);
       this.error = "Failed to load products. Please try again later.";
