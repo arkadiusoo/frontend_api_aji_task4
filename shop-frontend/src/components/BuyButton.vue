@@ -14,7 +14,7 @@ export default {
     buyProduct() {
       const username = localStorage.getItem("username");
       if (!username) {
-        console.error("User is not logged in!");
+        console.error("User isn't logged in!");
         return;
       }
 
