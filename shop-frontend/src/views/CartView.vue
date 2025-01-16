@@ -5,34 +5,28 @@
       <p>Your cart is empty.</p>
     </div>
     <div v-else>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in cart" :key="item.id">
-            <td>{{ item.name }}</td>
-            <td>{{ item.price_unit }} USD</td>
-            <td>{{ item.quantity }}</td>
-            <td>
-              <button class="btn btn-danger" @click="removeFromCart(item.id)">
-                Remove
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <CartTable
+        :cart="cart"
+        @updateQuantity="updateQuantity"
+        @removeFromCart="removeFromCart"
+      />
+      <ConfirmOrderButton
+        :cart="cart"
+        :clearCartAfterOrder="clearCartAfterOrder"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import CartTable from "../components/CartTable.vue";
+import ConfirmOrderButton from "../components/ConfirmOrderButton.vue";
+
 export default {
+  components: {
+    CartTable,
+    ConfirmOrderButton,
+  },
   data() {
     return {
       cart: [],
@@ -50,11 +44,30 @@ export default {
     this.cart = JSON.parse(localStorage.getItem(cartKey)) || [];
   },
   methods: {
+    updateQuantity(productId, newQuantity) {
+      const username = localStorage.getItem("username");
+      const cartKey = `cart_${username}`;
+
+      const product = this.cart.find((item) => item.id === productId);
+
+      if (product && newQuantity >= 1) {
+        product.quantity = Math.floor(newQuantity);
+        localStorage.setItem(cartKey, JSON.stringify(this.cart));
+      }
+    },
     removeFromCart(productId) {
       const username = localStorage.getItem("username");
       const cartKey = `cart_${username}`;
       this.cart = this.cart.filter((item) => item.id !== productId);
       localStorage.setItem(cartKey, JSON.stringify(this.cart));
+    },
+    clearCartAfterOrder() {
+      console.log("Clearing cart after order");
+      const username = localStorage.getItem("username");
+      const cartKey = `cart_${username}`;
+      localStorage.setItem(cartKey, "[]");
+      this.cart = [];
+      console.log("Cart cleared", this.cart);
     },
   },
 };
