@@ -5,14 +5,15 @@
       <p>Your cart is empty.</p>
     </div>
     <div v-else>
-      <!-- Użycie komponentu CartTable -->
       <CartTable
         :cart="cart"
         @updateQuantity="updateQuantity"
         @removeFromCart="removeFromCart"
       />
-      <!-- Dodanie przycisku Confirm Order -->
-      <ConfirmOrderButton :cart="cart" />
+      <ConfirmOrderButton
+        :cart="cart"
+        :clearCartAfterOrder="clearCartAfterOrder"
+      />
     </div>
   </div>
 </template>
@@ -50,7 +51,7 @@ export default {
       const product = this.cart.find((item) => item.id === productId);
 
       if (product && newQuantity >= 1) {
-        product.quantity = Math.floor(newQuantity); // Zaokrąglij do liczby całkowitej
+        product.quantity = Math.floor(newQuantity);
         localStorage.setItem(cartKey, JSON.stringify(this.cart));
       }
     },
@@ -59,6 +60,14 @@ export default {
       const cartKey = `cart_${username}`;
       this.cart = this.cart.filter((item) => item.id !== productId);
       localStorage.setItem(cartKey, JSON.stringify(this.cart));
+    },
+    clearCartAfterOrder() {
+      console.log("Clearing cart after order");
+      const username = localStorage.getItem("username");
+      const cartKey = `cart_${username}`;
+      localStorage.setItem(cartKey, "[]");
+      this.cart = [];
+      console.log("Cart cleared", this.cart);
     },
   },
 };

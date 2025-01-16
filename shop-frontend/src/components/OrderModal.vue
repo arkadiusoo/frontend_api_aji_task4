@@ -53,10 +53,15 @@
 </template>
 
 <script>
+import { createOrder } from "../api";
 export default {
   props: {
     cart: {
       type: Array,
+      required: true,
+    },
+    clearCartAfterOrder: {
+      type: Function,
       required: true,
     },
   },
@@ -74,6 +79,26 @@ export default {
       return this.cart
         .reduce((total, item) => total + item.price_unit * item.quantity, 0)
         .toFixed(2);
+    },
+  },
+  methods: {
+    async submitOrder() {
+      const orderData = {
+        ...this.formData,
+        products: this.cart.map((item) => ({
+          product_id: item.id,
+          quantity: item.quantity,
+        })),
+      };
+      try {
+        const respone = await createOrder(orderData);
+        console.log("Order created:", respone.data);
+        this.$emit("close");
+        console.log(typeof this.clearCartAfterOrder);
+        this.clearCartAfterOrder();
+      } catch (error) {
+        console.error("Error creating order:", error.message);
+      }
     },
   },
 };

@@ -4,12 +4,17 @@
       Confirm Order
     </button>
     <!-- Użycie komponentu OrderModal -->
-    <OrderModal v-if="isModalVisible" :cart="cart" @close="closeModal" />
+    <OrderModal
+      v-if="isModalVisible"
+      :cart="cart"
+      @close="closeModal"
+      :clearCartAfterOrder="clearCartAfterOrder"
+    />
   </div>
 </template>
 
 <script>
-import OrderModal from "./OrderModal.vue"; // Import komponentu OrderModal
+import OrderModal from "./OrderModal.vue";
 
 export default {
   props: {
@@ -17,13 +22,17 @@ export default {
       type: Array,
       required: true,
     },
+    clearCartAfterOrder: {
+      type: Function,
+      required: true,
+    },
   },
   components: {
-    OrderModal, // Rejestracja komponentu
+    OrderModal,
   },
   data() {
     return {
-      isModalVisible: false, // Kontrola widoczności modalu
+      isModalVisible: false,
     };
   },
   methods: {
