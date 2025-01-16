@@ -12,14 +12,14 @@
               id="name"
               type="text"
               class="form-control"
-              :placeholder="product.name"
+              v-model="formData.name"
             />
           </div>
           <div class="form-group">
             <label for="description">Description</label>
             <textarea
               id="description"
-              :placeholder="formData.description"
+              v-model="formData.description"
               class="form-control"
             ></textarea>
           </div>
@@ -27,32 +27,39 @@
             <label for="price">Price</label>
             <input
               id="price"
-              :placeholder="formData.price_unit"
               type="number"
               step="0.01"
               class="form-control"
               min="0.01"
+              v-model="formData.price_unit"
             />
           </div>
           <div class="form-group">
             <label for="weight">Weight</label>
             <input
               id="weight"
-              :placeholder="formData.weight_unit"
               type="number"
               step="0.0001"
               class="form-control"
               min="0.0001"
+              v-model="formData.weight_unit"
             />
           </div>
           <div class="form-group">
             <label for="category">Category</label>
-            <input
+            <select
               id="category"
-              :placeholder="formData.category"
-              type="text"
               class="form-control"
-            />
+              v-model="formData.category"
+            >
+              <option
+                v-for="category in categories"
+                :key="category.id"
+                :value="category.name"
+              >
+                {{ category.name }}
+              </option>
+            </select>
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save</button>
@@ -67,7 +74,8 @@
 </template>
 
 <script>
-import apiClient from "../api.js";
+import { updateProduct } from "../api.js";
+import { fetchCategories } from "../api.js"; // Import requestu do pobrania kategorii
 
 export default {
   props: {
@@ -84,11 +92,19 @@ export default {
     return {
       isModalVisible: false,
       formData: { ...this.product },
+      categories: [],
     };
   },
   methods: {
-    openModal() {
+    async openModal() {
       this.isModalVisible = true;
+
+      try {
+        const response = await fetchCategories();
+        this.categories = response.data;
+      } catch (error) {
+        console.error("Error fetching categories:", error.message);
+      }
     },
     closeModal() {
       this.isModalVisible = false;
@@ -100,14 +116,10 @@ export default {
             ([, value]) => value !== "" && value !== null
           )
         );
-        console.log("Filtered product data for API:", updatedData);
 
         console.log("Filtered product data for API:", updatedData);
 
-        const response = await apiClient.put(
-          `/products/${this.productId}`,
-          updatedData
-        );
+        const response = await updateProduct(this.productId, updatedData);
 
         console.log("Update successful:", response.data);
 
@@ -151,5 +163,6 @@ button {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 }
 </style>
