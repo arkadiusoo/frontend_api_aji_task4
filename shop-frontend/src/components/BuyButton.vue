@@ -9,11 +9,29 @@ export default {
       type: Number,
       required: true,
     },
+    product: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     buyProduct() {
-      console.log(`Buying product with ID: ${this.productId}`);
-      // Tutaj możesz dodać logikę zakupu produktu
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingItem = cart.find((item) => item.id === this.product.id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: this.product.id,
+          name: this.product.name,
+          price_unit: this.product.price_unit,
+          quantity: 1,
+        });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log(`Added to cart: ${this.product.name}`);
     },
   },
 };

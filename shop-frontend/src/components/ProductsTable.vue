@@ -49,7 +49,7 @@
           <td>{{ product.weight_unit }} kg</td>
           <td>{{ product.category }}</td>
           <td v-if="isClient || isWorker">
-            <BuyButton v-if="isClient" :productId="product.id" />
+            <BuyButton v-if="isClient" :product="product" />
             <EditButton
               v-if="isWorker"
               :productId="product.id"

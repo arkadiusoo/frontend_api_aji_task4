@@ -1,5 +1,8 @@
 <template>
   <div class="container mt-4">
+    <div v-if="isClient" class="text-end mb-3">
+      <router-link to="/cart" class="btn btn-primary">Go to Cart</router-link>
+    </div>
     <h1 class="text-center mb-4">Product Table</h1>
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
     <div v-if="loading" class="text-center">Loading...</div>
