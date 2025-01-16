@@ -2,7 +2,6 @@
   <div>
     <button class="btn btn-warning" @click="openModal">Edit</button>
 
-    <!-- Okno modalne -->
     <div v-if="isModalVisible" class="modal-overlay">
       <div class="modal-content">
         <h2>Edit Product</h2>
@@ -14,7 +13,6 @@
               v-model="formData.name"
               type="text"
               class="form-control"
-              required
             />
           </div>
           <div class="form-group">
@@ -23,29 +21,28 @@
               id="description"
               v-model="formData.description"
               class="form-control"
-              required
             ></textarea>
           </div>
           <div class="form-group">
             <label for="price">Price</label>
             <input
               id="price"
-              v-model="formData.price"
+              v-model="formData.price_unit"
               type="number"
               step="0.01"
               class="form-control"
-              required
+              min="0.01"
             />
           </div>
           <div class="form-group">
             <label for="weight">Weight</label>
             <input
               id="weight"
-              v-model="formData.weight"
+              v-model="formData.weight_unit"
               type="number"
-              step="0.01"
+              step="0.0001"
               class="form-control"
-              required
+              min="0.0001"
             />
           </div>
           <div class="form-group">
@@ -55,7 +52,6 @@
               v-model="formData.category"
               type="text"
               class="form-control"
-              required
             />
           </div>
           <div class="form-actions">
@@ -71,6 +67,8 @@
 </template>
 
 <script>
+import apiClient from "../api.js";
+
 export default {
   props: {
     productId: {
@@ -95,10 +93,29 @@ export default {
     closeModal() {
       this.isModalVisible = false;
     },
-    submitEdit() {
-      console.log("Edited product data:", this.formData);
-      this.$emit("edit", { ...this.formData });
-      this.closeModal();
+    async submitEdit() {
+      try {
+        const updatedData = Object.fromEntries(
+          Object.entries(this.formData).filter(
+            ([, value]) => value !== "" && value !== null
+          )
+        );
+        console.log("Filtered product data for API:", updatedData);
+
+        console.log("Filtered product data for API:", updatedData);
+
+        const response = await apiClient.put(
+          `/products/${this.productId}`,
+          updatedData
+        );
+
+        console.log("Update successful:", response.data);
+
+        this.closeModal();
+        window.location.reload();
+      } catch (error) {
+        console.error("Error updating product:", error.message);
+      }
     },
   },
 };
@@ -114,7 +131,6 @@ export default {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Tło modalnego okna */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -127,7 +143,6 @@ export default {
   justify-content: center;
 }
 
-/* Styl przycisków */
 button {
   margin: 10px 5px 0 0;
 }
