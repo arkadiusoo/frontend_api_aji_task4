@@ -34,7 +34,7 @@ export default {
       }
 
       localStorage.setItem(cartKey, JSON.stringify(cart));
-      console.log(`Added to cart for user ${username}: ${this.product.name}`);
+      // console.log(`Added to cart for user ${username}: ${this.product.name}`);
     },
   },
 };
