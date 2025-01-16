@@ -35,13 +35,26 @@
 export default {
   data() {
     return {
-      cart: JSON.parse(localStorage.getItem("cart")) || [],
+      cart: [],
     };
+  },
+  created() {
+    const username = localStorage.getItem("username");
+    if (!username) {
+      console.error("User is not logged in!");
+      this.cart = [];
+      return;
+    }
+
+    const cartKey = `cart_${username}`;
+    this.cart = JSON.parse(localStorage.getItem(cartKey)) || [];
   },
   methods: {
     removeFromCart(productId) {
+      const username = localStorage.getItem("username");
+      const cartKey = `cart_${username}`;
       this.cart = this.cart.filter((item) => item.id !== productId);
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+      localStorage.setItem(cartKey, JSON.stringify(this.cart));
     },
   },
 };

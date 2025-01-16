@@ -5,10 +5,6 @@
 <script>
 export default {
   props: {
-    productId: {
-      type: Number,
-      required: true,
-    },
     product: {
       type: Object,
       required: true,
@@ -16,7 +12,14 @@ export default {
   },
   methods: {
     buyProduct() {
-      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const username = localStorage.getItem("username");
+      if (!username) {
+        console.error("User is not logged in!");
+        return;
+      }
+
+      const cartKey = `cart_${username}`;
+      const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
       const existingItem = cart.find((item) => item.id === this.product.id);
 
       if (existingItem) {
@@ -30,8 +33,8 @@ export default {
         });
       }
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      console.log(`Added to cart: ${this.product.name}`);
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+      console.log(`Added to cart for user ${username}: ${this.product.name}`);
     },
   },
 };
