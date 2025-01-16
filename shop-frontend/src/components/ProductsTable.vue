@@ -20,7 +20,7 @@
           <td>{{ product.category }}</td>
           <td v-if="isClient || isWorker">
             <BuyButton v-if="isClient" :productId="product.id" />
-            <EditButton v-if="isWorker" :productId="product.id" />
+            <EditButton :productId="product.id" :product="product" />
           </td>
         </tr>
       </tbody>

@@ -10,16 +10,16 @@
             <label for="name">Name</label>
             <input
               id="name"
-              v-model="formData.name"
               type="text"
               class="form-control"
+              :placeholder="product.name"
             />
           </div>
           <div class="form-group">
             <label for="description">Description</label>
             <textarea
               id="description"
-              v-model="formData.description"
+              :placeholder="formData.description"
               class="form-control"
             ></textarea>
           </div>
@@ -27,7 +27,7 @@
             <label for="price">Price</label>
             <input
               id="price"
-              v-model="formData.price_unit"
+              :placeholder="formData.price_unit"
               type="number"
               step="0.01"
               class="form-control"
@@ -38,7 +38,7 @@
             <label for="weight">Weight</label>
             <input
               id="weight"
-              v-model="formData.weight_unit"
+              :placeholder="formData.weight_unit"
               type="number"
               step="0.0001"
               class="form-control"
@@ -49,7 +49,7 @@
             <label for="category">Category</label>
             <input
               id="category"
-              v-model="formData.category"
+              :placeholder="formData.category"
               type="text"
               class="form-control"
             />
