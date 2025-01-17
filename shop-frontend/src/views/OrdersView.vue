@@ -1,30 +1,36 @@
 <template>
-  <div class="container mt-4" v-if="isWorker">
-    <h1 class="text-center mb-4">Manage Orders</h1>
-    <div>
-      <button class="btn btn-primary me-2" @click="setView('UNCONFIRMED')">
-        Unconfirmed Orders
-      </button>
-      <button class="btn btn-primary me-2" @click="setView('CONFIRMED')">
-        Confirmed Orders
-      </button>
-      <button class="btn btn-primary me-2" @click="setView('COMPLETED')">
-        Completed Orders
-      </button>
-      <button class="btn btn-primary" @click="setView('CANCELLED')">
-        Cancelled Orders
-      </button>
+  <div v-if="isLoggedIn">
+    <div class="container mt-4" v-if="isWorker">
+      <h1 class="text-center mb-4">Manage Orders</h1>
+      <div>
+        <button class="btn btn-primary me-2" @click="setView('UNCONFIRMED')">
+          Unconfirmed Orders
+        </button>
+        <button class="btn btn-primary me-2" @click="setView('CONFIRMED')">
+          Confirmed Orders
+        </button>
+        <button class="btn btn-primary me-2" @click="setView('COMPLETED')">
+          Completed Orders
+        </button>
+        <button class="btn btn-primary" @click="setView('CANCELLED')">
+          Cancelled Orders
+        </button>
+      </div>
+      <OrdersTable
+        v-if="currentView"
+        :status="currentView"
+        :allowActions="
+          currentView === 'UNCONFIRMED' || currentView === 'CONFIRMED'
+        "
+      />
     </div>
-    <OrdersTable
-      v-if="currentView"
-      :status="currentView"
-      :allowActions="
-        currentView === 'UNCONFIRMED' || currentView === 'CONFIRMED'
-      "
-    />
+    <div class="container mt-4" v-if="isClient">
+      <ClientOrders />
+    </div>
   </div>
-  <div class="container mt-4" v-if="isClient">
-    <ClientOrders />
+  <div v-else class="text-center">
+    <p>Please log in to access the content.</p>
+    <router-link to="/login" class="btn btn-primary">Login</router-link>
   </div>
 </template>
 
@@ -47,6 +53,7 @@ export default {
       currentView: "UNCONFIRMED",
       isClient: false,
       isWorker: false,
+      isLoggedIn: !!localStorage.getItem("token"),
     };
   },
   methods: {

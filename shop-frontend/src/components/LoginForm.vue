@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <h1 class="text-center">Login</h1>
-    <div v-if="error" class="alert alert-danger">{{ error }}</div>
+
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="username">Username</label>
@@ -38,7 +38,6 @@ export default {
   },
   data() {
     return {
-      // Lokalne dane formularza
       localCredentials: {
         username: "",
         password: "",
@@ -50,7 +49,6 @@ export default {
       try {
         this.$emit("submit", { ...this.localCredentials });
 
-        // Reset danych
         this.resetCredentials();
       } catch (error) {
         console.error("Błąd w handleSubmit:", error);

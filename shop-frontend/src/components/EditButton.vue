@@ -4,19 +4,22 @@
     <ProductModal
       :isVisible="isModalVisible"
       :productData="product"
+      :isAdding="isAdding"
       title="Edit Product"
       @submit="handleSubmit"
       @close="closeModal"
     />
+    <ErrorModal v-if="error" :error="error" @clearError="clearError" />
   </div>
 </template>
 
 <script>
 import ProductModal from "./ProductModal.vue";
 import { updateProduct } from "../api";
+import ErrorModal from "../components/ErrorModal.vue";
 
 export default {
-  components: { ProductModal },
+  components: { ProductModal, ErrorModal },
   props: {
     product: {
       type: Object,
@@ -30,6 +33,8 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      error: null,
+      isAdding: false,
     };
   },
   methods: {
@@ -43,10 +48,18 @@ export default {
       try {
         const response = await updateProduct(this.productId, updatedData);
         console.log("Product updated:", response.data);
-        window.location.reload();
+        if (response.status === 200) {
+          window.location.reload();
+        }
       } catch (error) {
-        console.error("Error updating product:", error.message);
+        console.error("Error updating product:", error);
+        this.error =
+          "Error updating product, check your input data. Error message: " +
+          error.message;
       }
+    },
+    clearError() {
+      this.error = null;
     },
   },
 };
