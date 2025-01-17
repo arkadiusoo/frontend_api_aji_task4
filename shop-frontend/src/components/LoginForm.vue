@@ -25,10 +25,23 @@
       </div>
       <button type="submit" class="btn btn-primary mt-4 w-100">Login</button>
     </form>
+
+    <p class="text-center mt-3">
+      Don't have an account?
+      <button type="button" class="btn btn-link p-0" @click="showRegisterModal">
+        Register
+      </button>
+    </p>
+    <RegisterModal
+      :isVisible="isRegisterModalVisible"
+      @close="closeRegisterModal"
+    />
   </div>
 </template>
 
 <script>
+import RegisterModal from "./RegisterModal.vue";
+
 export default {
   props: {
     error: {
@@ -36,12 +49,16 @@ export default {
       required: false,
     },
   },
+  components: {
+    RegisterModal,
+  },
   data() {
     return {
       localCredentials: {
         username: "",
         password: "",
       },
+      isRegisterModalVisible: false, // Kontrola widoczności modala rejestracji
     };
   },
   methods: {
@@ -57,6 +74,12 @@ export default {
     resetCredentials() {
       this.localCredentials.username = "";
       this.localCredentials.password = "";
+    },
+    showRegisterModal() {
+      this.isRegisterModalVisible = true;
+    },
+    closeRegisterModal() {
+      this.isRegisterModalVisible = false;
     },
   },
 };

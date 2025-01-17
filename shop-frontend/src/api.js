@@ -68,6 +68,8 @@ export const addOpinion = (orderId, opinionData) =>
 export const fetchCategories = () => apiClient.get("/categories");
 
 // auth
+export const registerUser = (userData) =>
+  apiClient.post("/users/create", userData);
 export const login = (credentials) =>
   apiClient.post("/auth/login", credentials);
 export const refreshToken = (refreshTokenData) =>

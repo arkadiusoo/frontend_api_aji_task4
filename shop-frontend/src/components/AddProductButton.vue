@@ -47,7 +47,7 @@ export default {
         }
         const response = await createProduct(newProductData);
         console.log("Product created:", response.data);
-        if (response.status === 200) {
+        if (response.status === 201) {
           window.location.reload();
         }
         this.closeModal();
