@@ -46,7 +46,7 @@ export default {
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
         localStorage.setItem("username", credentials.username);
-        this.$router.push("/products");
+        this.$router.push("/");
         this.isLoggedIn = true;
       } catch (err) {
         console.error("Login failed:", err.message);
