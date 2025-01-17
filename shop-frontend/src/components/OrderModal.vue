@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       formData: {
-        username: "",
+        username: localStorage.getItem("username") || "",
         email: "",
         phone_number: "",
       },

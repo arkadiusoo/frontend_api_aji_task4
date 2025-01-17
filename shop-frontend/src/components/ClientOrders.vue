@@ -13,6 +13,7 @@
             <th>Email</th>
             <th>Phone number</th>
             <th>Products</th>
+            <th>Total Price</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -29,10 +30,12 @@
                   :key="product.id"
                 >
                   Name: {{ product.name }} <br />
-                  <span class="tab">Count: {{ product.quantity }}</span>
+                  <span class="tab">Count: {{ product.quantity }}</span> <br />
+                  <span class="tab">Price: {{ product.price_unit }} USD</span>
                 </li>
               </ul>
             </td>
+            <td>{{ calculateTotalPrice(getProductsByOrder(order.id)) }} USD</td>
             <td>{{ order.status }}</td>
           </tr>
         </tbody>
