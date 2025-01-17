@@ -22,10 +22,14 @@
             <router-link class="nav-link" to="/login">Login</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/products">Products</router-link>
+            <router-link v-if="isLogged" class="nav-link" to="/products"
+              >Products</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/orders">Orders</router-link>
+            <router-link v-if="isLogged" class="nav-link" to="/orders"
+              >Orders</router-link
+            >
           </li>
         </ul>
       </div>
@@ -33,7 +37,26 @@
   </nav>
   <router-view />
 </template>
-
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      isLogged: !!localStorage.getItem("token"),
+    };
+  },
+  methods: {
+    updateIsLogged(value) {
+      this.isLogged = value;
+      if (!value) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+      }
+    },
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
