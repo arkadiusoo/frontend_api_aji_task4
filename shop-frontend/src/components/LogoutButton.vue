@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h2>Welcome! You are logged in.</h2>
+    <h2>
+      Welcome <strong>{{ username }}</strong
+      >! You are logged in.
+    </h2>
     <button class="btn btn-danger" @click="logout">Logout</button>
   </div>
 </template>
@@ -11,6 +14,11 @@ export default {
     onLogout: {
       type: Function,
       required: true,
+    },
+  },
+  computed: {
+    username() {
+      return localStorage.getItem("username");
     },
   },
   methods: {
