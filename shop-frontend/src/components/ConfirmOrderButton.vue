@@ -3,7 +3,7 @@
     <button class="btn btn-primary mt-4" @click="openModal">
       Confirm Order
     </button>
-    <!-- Użycie komponentu OrderModal -->
+
     <OrderModal
       v-if="isModalVisible"
       :cart="cart"

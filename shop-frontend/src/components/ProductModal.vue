@@ -27,7 +27,6 @@
             type="number"
             step="0.01"
             class="form-control"
-            min="0.01"
             v-model="formData.price_unit"
           />
         </div>
@@ -38,7 +37,6 @@
             type="number"
             step="0.0001"
             class="form-control"
-            min="0.0001"
             v-model="formData.weight_unit"
           />
         </div>
