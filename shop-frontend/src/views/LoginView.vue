@@ -2,18 +2,21 @@
   <div>
     <LoginForm v-if="!isLoggedIn" :error="error" @submit="loginUser" />
     <LogoutButton v-else :onLogout="logoutUser" />
+    <ErrorModal v-if="error" :error="error" @clearError="clearError" />
   </div>
 </template>
 
 <script>
 import LoginForm from "../components/LoginForm.vue";
 import LogoutButton from "../components/LogoutButton.vue";
+import ErrorModal from "../components/ErrorModal.vue";
 import { login } from "../api";
 
 export default {
   components: {
     LoginForm,
     LogoutButton,
+    ErrorModal,
   },
   data() {
     return {
@@ -50,11 +53,15 @@ export default {
         this.isLoggedIn = true;
       } catch (err) {
         console.error("Login failed:", err.message);
+        this.error = "Login failed: " + err.message;
       }
     },
     logoutUser() {
       localStorage.removeItem("token");
       this.isLoggedIn = false;
+    },
+    clearError() {
+      this.error = null;
     },
   },
 };
