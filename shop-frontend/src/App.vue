@@ -47,12 +47,14 @@ export default {
   },
   methods: {
     updateIsLogged(value) {
+      console.log;
       this.isLogged = value;
       if (!value) {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("role");
       }
+      window.location.reload();
     },
   },
 };

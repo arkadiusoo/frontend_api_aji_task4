@@ -24,6 +24,7 @@ export default {
   methods: {
     logout() {
       this.onLogout();
+      this.$emit("update-is-logged", true);
     },
   },
 };

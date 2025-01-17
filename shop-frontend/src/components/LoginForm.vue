@@ -48,7 +48,7 @@ export default {
     handleSubmit() {
       try {
         this.$emit("submit", { ...this.localCredentials });
-
+        this.$emit("update-is-logged", true);
         this.resetCredentials();
       } catch (error) {
         console.error("Błąd w handleSubmit:", error);

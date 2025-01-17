@@ -51,6 +51,7 @@ export default {
         localStorage.setItem("username", credentials.username);
         this.$router.push("/");
         this.isLoggedIn = true;
+        // window.location.reload();
       } catch (err) {
         console.error("Login failed:", err.message);
         this.error = "Login failed: " + err.message;
