@@ -19,6 +19,15 @@
             v-model="formData.description"
             class="form-control"
           ></textarea>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="optimizeDescription"
+            :disabled="isOptimizing"
+            v-if="!isAdding"
+          >
+            {{ isOptimizing ? "Optimizing..." : "Optimize Description" }}
+          </button>
         </div>
         <div class="form-group">
           <label for="price">Price</label>
@@ -68,7 +77,7 @@
 </template>
 
 <script>
-import { fetchCategories } from "../api";
+import { fetchCategories, getSeoDescription } from "../api";
 
 export default {
   props: {
@@ -84,11 +93,17 @@ export default {
       type: String,
       default: "Edit Product",
     },
+    isAdding: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   data() {
     return {
       formData: { ...this.productData },
       categories: [],
+      isOptimizing: false,
     };
   },
   methods: {
@@ -103,6 +118,31 @@ export default {
       );
       this.$emit("submit", filteredData);
       this.closeModal();
+    },
+    async optimizeDescription() {
+      this.isOptimizing = true;
+
+      try {
+        const response = await getSeoDescription(this.productData.id);
+        const parser = new DOMParser();
+        const htmlDoc = parser.parseFromString(response.data, "text/html");
+        const descriptionElement = htmlDoc.querySelector("p.description");
+        if (descriptionElement) {
+          this.formData.description = descriptionElement.textContent
+            .trim()
+            .replace(/^"|"$/g, "");
+        } else {
+          console.error(
+            "No <p class='description'> element found in response."
+          );
+          alert("Could not find description in the response.");
+        }
+      } catch (error) {
+        console.error("Error optimizing description:", error.message);
+        alert("Failed to optimize description. Please try again.");
+      } finally {
+        this.isOptimizing = false;
+      }
     },
   },
   async created() {

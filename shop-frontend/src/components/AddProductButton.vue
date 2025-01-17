@@ -5,6 +5,7 @@
       :isVisible="isModalVisible"
       title="Add Product"
       :productData="{}"
+      :isAdding="isAdding"
       @submit="handleAddProduct"
       @close="closeModal"
     />
@@ -29,6 +30,7 @@ export default {
     return {
       isModalVisible: false,
       error: null,
+      isAdding: true,
     };
   },
   methods: {
@@ -45,7 +47,9 @@ export default {
         }
         const response = await createProduct(newProductData);
         console.log("Product created:", response.data);
-        // window.location.reload();
+        if (response.status === 200) {
+          window.location.reload();
+        }
         this.closeModal();
       } catch (error) {
         console.error("Error creating product:", error.message);

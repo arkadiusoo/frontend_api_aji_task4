@@ -4,6 +4,7 @@
     <ProductModal
       :isVisible="isModalVisible"
       :productData="product"
+      :isAdding="isAdding"
       title="Edit Product"
       @submit="handleSubmit"
       @close="closeModal"
@@ -33,6 +34,7 @@ export default {
     return {
       isModalVisible: false,
       error: null,
+      isAdding: false,
     };
   },
   methods: {
@@ -46,6 +48,9 @@ export default {
       try {
         const response = await updateProduct(this.productId, updatedData);
         console.log("Product updated:", response.data);
+        if (response.status === 200) {
+          window.location.reload();
+        }
       } catch (error) {
         console.error("Error updating product:", error);
         this.error =
