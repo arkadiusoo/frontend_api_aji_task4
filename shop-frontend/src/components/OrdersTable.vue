@@ -13,7 +13,9 @@
             <th>Email</th>
             <th>Phone number</th>
             <th>Status</th>
+            <th v-if="status != 'UNCONFIRMED'">Approval date</th>
             <th>Products</th>
+            <th>Total cost</th>
             <th v-if="allowActions">Actions</th>
           </tr>
         </thead>
@@ -24,6 +26,9 @@
             <td>{{ order.email }}</td>
             <td>{{ order.phone_number }}</td>
             <td>{{ order.status }}</td>
+            <td v-if="status != 'UNCONFIRMED'">
+              {{ formatApprovalDate(order.approval_date) }}
+            </td>
             <td>
               <ul>
                 <li
@@ -31,10 +36,12 @@
                   :key="product.id"
                 >
                   Name: {{ product.name }} <br />
-                  <span class="tab">Count: {{ product.quantity }}</span>
+                  <span class="tab">Count: {{ product.quantity }}</span> <br />
+                  <span class="tab">Price: {{ product.price_unit }} USD</span>
                 </li>
               </ul>
             </td>
+            <td>{{ calculateTotalPrice(getProductsByOrder(order.id)) }} USD</td>
             <td class="buttons" v-if="allowActions">
               <div class="actions-container">
                 <button
@@ -100,7 +107,6 @@ export default {
     async updateStatus(orderId, status) {
       try {
         await updateOrderStatus(orderId, status);
-        alert(`Order ${orderId} marked as ${status}`);
         const response1 = await fetchAllOrders(this.status);
         this.orders = response1.data;
       } catch (err) {
@@ -109,6 +115,22 @@ export default {
     },
     getProductsByOrder(id) {
       return this.products.filter((product) => product.order_id === id);
+    },
+    formatApprovalDate(date) {
+      if (!date) return "";
+      const parsedDate = new Date(date);
+      const day = String(parsedDate.getDate()).padStart(2, "0");
+      const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+      const year = parsedDate.getFullYear();
+      return `${day}-${month}-${year}`;
+    },
+    calculateTotalPrice(products) {
+      return products
+        .reduce(
+          (total, product) => total + product.price_unit * product.quantity,
+          0
+        )
+        .toFixed(2);
     },
   },
   computed: {

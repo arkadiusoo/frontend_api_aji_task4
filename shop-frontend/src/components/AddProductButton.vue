@@ -5,18 +5,21 @@
       :isVisible="isModalVisible"
       title="Add Product"
       :productData="{}"
+      :isAdding="isAdding"
       @submit="handleAddProduct"
       @close="closeModal"
     />
+    <ErrorModal v-if="error" :error="error" @clearError="clearError" />
   </div>
 </template>
 
 <script>
 import ProductModal from "./ProductModal.vue";
 import { createProduct } from "../api";
+import ErrorModal from "../components/ErrorModal.vue";
 
 export default {
-  components: { ProductModal },
+  components: { ProductModal, ErrorModal },
   props: {
     isWorker: {
       type: Boolean,
@@ -26,6 +29,8 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      error: null,
+      isAdding: true,
     };
   },
   methods: {
@@ -42,11 +47,19 @@ export default {
         }
         const response = await createProduct(newProductData);
         console.log("Product created:", response.data);
-        window.location.reload();
+        if (response.status === 200) {
+          window.location.reload();
+        }
         this.closeModal();
       } catch (error) {
         console.error("Error creating product:", error.message);
+        this.error =
+          "Error creating product, check your input data. Error message: " +
+          error.message;
       }
+    },
+    clearError() {
+      this.error = null;
     },
   },
 };

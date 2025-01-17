@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-4">
+  <div v-if="isLoggedIn" class="container mt-4">
     <div v-if="isClient" class="text-end mb-3">
       <router-link to="/cart" class="btn btn-primary">Go to Cart</router-link>
     </div>
@@ -14,6 +14,10 @@
         :isWorker="isWorker"
       />
     </div>
+  </div>
+  <div v-else class="text-center">
+    <p>Please log in to access the content.</p>
+    <router-link to="/login" class="btn btn-primary">Login</router-link>
   </div>
 </template>
 
@@ -34,12 +38,15 @@ export default {
       error: null,
       isClient: false,
       isWorker: false,
+      isLoggedIn: !!localStorage.getItem("token"),
     };
   },
   async created() {
+    if (!this.isLoggedIn) {
+      return;
+    }
     await this.fetchProducts();
 
-    // Pobierz rolę użytkownika z localStorage
     const userRole = localStorage.getItem("role");
     this.isClient = userRole === "CLIENT";
     this.isWorker = userRole === "WORKER";
