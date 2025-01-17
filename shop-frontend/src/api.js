@@ -41,6 +41,7 @@ export const initializeProducts = (file) => {
     },
   });
 };
+export const getProductsByOrder = () => apiClient.get(`/orders/products`);
 
 // routes
 export const getStatues = () => apiClient.get("/status");
