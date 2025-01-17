@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-4">
+  <div class="container mt-4" v-if="isWorker">
     <h1 class="text-center mb-4">Manage Orders</h1>
     <div>
       <button class="btn btn-primary me-2" @click="setView('UNCONFIRMED')">
@@ -23,18 +23,30 @@
       "
     />
   </div>
+  <div class="container mt-4" v-if="isClient">
+    <ClientOrders />
+  </div>
 </template>
 
 <script>
 import OrdersTable from "../components/OrdersTable.vue";
+import ClientOrders from "../components/ClientOrders.vue";
 
 export default {
   components: {
     OrdersTable,
+    ClientOrders,
+  },
+  created() {
+    const userRole = localStorage.getItem("role");
+    this.isClient = userRole === "CLIENT";
+    this.isWorker = userRole === "WORKER";
   },
   data() {
     return {
       currentView: "UNCONFIRMED",
+      isClient: false,
+      isWorker: false,
     };
   },
   methods: {

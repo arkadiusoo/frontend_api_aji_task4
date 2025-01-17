@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h1 class="text-center mb-4">Orders</h1>
     <div v-if="orders.length === 0" class="text-center">
-      <p>No orders to display.</p>
+      <p>You have no orders to process.</p>
     </div>
     <div v-else>
       <table class="table table-bordered table-striped">
@@ -101,7 +101,8 @@ export default {
       try {
         await updateOrderStatus(orderId, status);
         alert(`Order ${orderId} marked as ${status}`);
-        this.orders = this.orders.filter((order) => order.id !== orderId);
+        const response1 = await fetchAllOrders(this.status);
+        this.orders = response1.data;
       } catch (err) {
         console.error("Error updating order status:", err.message);
       }
