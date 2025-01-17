@@ -8,12 +8,22 @@
     <div v-if="loading" class="text-center">Loading...</div>
     <div v-else>
       <AddProductButton :isWorker="isWorker" @productAdded="fetchProducts" />
-      <ProductsTable
-        :products="products"
-        :isClient="isClient"
-        :isWorker="isWorker"
-      />
+      <div v-if="products.length === 0" class="text-center mt-5">
+        <InitialProductsButton @openModal="showFileUploadModal" />
+      </div>
+      <div v-else>
+        <ProductsTable
+          :products="products"
+          :isClient="isClient"
+          :isWorker="isWorker"
+        />
+      </div>
     </div>
+    <FileUploadModal
+      v-if="isFileUploadModalVisible"
+      @close="closeFileUploadModal"
+      @productsInitialized="fetchProducts"
+    />
   </div>
   <div v-else class="text-center">
     <p>Please log in to access the content.</p>
@@ -24,12 +34,16 @@
 <script>
 import ProductsTable from "../components/ProductsTable.vue";
 import AddProductButton from "../components/AddProductButton.vue";
+import InitialProductsButton from "../components/InitialProductsButton.vue";
+import FileUploadModal from "../components/FileUploadModal.vue";
 import { getProducts } from "../api";
 
 export default {
   components: {
     ProductsTable,
     AddProductButton,
+    InitialProductsButton,
+    FileUploadModal,
   },
   data() {
     return {
@@ -39,6 +53,7 @@ export default {
       isClient: false,
       isWorker: false,
       isLoggedIn: !!localStorage.getItem("token"),
+      isFileUploadModalVisible: false,
     };
   },
   async created() {
@@ -62,6 +77,12 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    showFileUploadModal() {
+      this.isFileUploadModalVisible = true;
+    },
+    closeFileUploadModal() {
+      this.isFileUploadModalVisible = false;
     },
   },
 };

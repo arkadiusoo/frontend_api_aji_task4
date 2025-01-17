@@ -1,0 +1,18 @@
+[
+    {
+        "id": null,
+        "name": "MacBook Air 13'' M3",
+        "description": "High-performance laptop.",
+        "price_unit": 1200,
+        "weight_unit": 2.5,
+        "category": "Electronics"
+    },
+    {
+        "id": null,
+        "name": "iPhone 15 Pro 256GB",
+        "description": "Latest model.",
+        "price_unit": 800,
+        "weight_unit": 0.4,
+        "category": "Electronics"
+    }
+]
