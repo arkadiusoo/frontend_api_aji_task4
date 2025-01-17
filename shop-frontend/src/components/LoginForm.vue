@@ -32,6 +32,8 @@
         Register
       </button>
     </p>
+
+    <!-- Register Modal -->
     <RegisterModal
       :isVisible="isRegisterModalVisible"
       @close="closeRegisterModal"
