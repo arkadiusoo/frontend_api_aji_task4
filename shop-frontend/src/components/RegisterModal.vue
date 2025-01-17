@@ -31,10 +31,12 @@
         </div>
       </form>
     </div>
+    <ErrorModal v-if="error" :error="error" @clearError="clearError" />
   </div>
 </template>
 
 <script>
+import ErrorModal from "../components/ErrorModal.vue";
 import { registerUser } from "../api";
 
 export default {
@@ -44,12 +46,16 @@ export default {
       required: true,
     },
   },
+  components: {
+    ErrorModal,
+  },
   data() {
     return {
       form: {
         username: "",
         password: "",
       },
+      error: null,
     };
   },
   methods: {
@@ -62,8 +68,13 @@ export default {
         alert("Registration successful. Please log in.");
         this.closeModal();
       } catch (error) {
-        alert(error.response?.data?.message || "Registration failed.");
+        // alert(error.response?.data?.message || "Registration failed.");
+        this.error = error.response?.data?.message || "Registration failed.";
       }
+    },
+    clearError() {
+      this.error = null;
+      this.closeModal();
     },
   },
 };
