@@ -22,14 +22,10 @@
             <router-link class="nav-link" to="/login">Login</router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="isLogged" class="nav-link" to="/products"
-              >Products</router-link
-            >
+            <router-link class="nav-link" to="/products">Products</router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="isLogged" class="nav-link" to="/orders"
-              >Orders</router-link
-            >
+            <router-link class="nav-link" to="/orders">Orders</router-link>
           </li>
         </ul>
       </div>
@@ -41,22 +37,9 @@
 export default {
   name: "App",
   data() {
-    return {
-      isLogged: !!localStorage.getItem("token"),
-    };
+    return {};
   },
-  methods: {
-    updateIsLogged(value) {
-      console.log;
-      this.isLogged = value;
-      if (!value) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
-      }
-      window.location.reload();
-    },
-  },
+  methods: {},
 };
 </script>
 <style>
