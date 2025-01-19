@@ -53,6 +53,7 @@ export default {
         const response = await initializeProducts(this.file);
         this.$emit("productsInitialized");
         this.$emit("close");
+        console.log(response.data.message);
       } catch (error) {
         this.error =
           error.response?.data?.message || "Failed to upload products.";
