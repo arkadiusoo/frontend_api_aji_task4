@@ -17,7 +17,9 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.clear();
+      localStorage.setItem("token", "");
+      localStorage.setItem("role", "");
+      localStorage.setItem("username", "");
       window.location.reload();
     },
   },

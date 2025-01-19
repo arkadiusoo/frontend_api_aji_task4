@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-success" @click="buyProduct">Buy</button>
+  <button class="btn btn-success" @click="buyProduct">Add to cart</button>
 </template>
 
 <script>
@@ -13,10 +13,6 @@ export default {
   methods: {
     buyProduct() {
       const username = localStorage.getItem("username");
-      if (!username) {
-        console.error("User isn't logged in!");
-        return;
-      }
 
       const cartKey = `cart_${username}`;
       const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
