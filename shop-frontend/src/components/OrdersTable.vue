@@ -96,8 +96,13 @@ export default {
   async created() {
     try {
       const response1 = await fetchAllOrders(this.status);
-      const response2 = await getProductsByOrder();
+
       this.orders = response1.data;
+    } catch (err) {
+      console.error("Error fetching orders:", err.message);
+    }
+    try {
+      const response2 = await getProductsByOrder();
       this.products = response2.data;
     } catch (err) {
       console.error("Error fetching orders:", err.message);
