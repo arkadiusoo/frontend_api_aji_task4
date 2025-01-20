@@ -1,18 +1,122 @@
 [
-    {
-        "id": null,
-        "name": "MacBook Air 13'' M3",
-        "description": "High-performance laptop.",
-        "price_unit": 1200,
-        "weight_unit": 2.5,
-        "category": "Electronics"
-    },
-    {
-        "id": null,
-        "name": "iPhone 15 Pro 256GB",
-        "description": "Latest model.",
-        "price_unit": 800,
-        "weight_unit": 0.4,
-        "category": "Electronics"
-    }
+  {
+    "id": null,
+    "name": "MacBook Air 13'' M3",
+    "description": "High-performance laptop.",
+    "price_unit": 1200,
+    "weight_unit": 2.5,
+    "category": "Electronics"
+  },
+  {
+    "id": null,
+    "name": "iPhone 15 Pro 256GB",
+    "description": "Latest model.",
+    "price_unit": 800,
+    "weight_unit": 0.4,
+    "category": "Electronics"
+  },
+  {
+    "id": null,
+    "name": "Samsung Galaxy S23",
+    "description": "Flagship smartphone.",
+    "price_unit": 750,
+    "weight_unit": 0.45,
+    "category": "Electronics"
+  },
+  {
+    "id": null,
+    "name": "Organic Apples - 1kg",
+    "description": "Fresh and juicy organic apples.",
+    "price_unit": 4,
+    "weight_unit": 1.0,
+    "category": "Food"
+  },
+  {
+    "id": null,
+    "name": "Whole Wheat Bread",
+    "description": "Healthy and freshly baked.",
+    "price_unit": 2.5,
+    "weight_unit": 0.8,
+    "category": "Food"
+  },
+  {
+    "id": null,
+    "name": "Men's Leather Jacket",
+    "description": "Stylish and durable leather jacket.",
+    "price_unit": 150,
+    "weight_unit": 3.0,
+    "category": "Clothing"
+  },
+  {
+    "id": null,
+    "name": "Women's Summer Dress",
+    "description": "Light and comfortable summer dress.",
+    "price_unit": 50,
+    "weight_unit": 0.6,
+    "category": "Clothing"
+  },
+  {
+    "id": null,
+    "name": "Bluetooth Headphones",
+    "description": "Noise-cancelling wireless headphones.",
+    "price_unit": 120,
+    "weight_unit": 0.3,
+    "category": "Electronics"
+  },
+  {
+    "id": null,
+    "name": "Pack of Bananas - 1kg",
+    "description": "Sweet and ripe bananas.",
+    "price_unit": 3,
+    "weight_unit": 1.0,
+    "category": "Food"
+  },
+  {
+    "id": null,
+    "name": "Gaming Laptop",
+    "description": "High-performance gaming laptop.",
+    "price_unit": 1800,
+    "weight_unit": 3.5,
+    "category": "Electronics"
+  },
+  {
+    "id": null,
+    "name": "Men's Running Shoes",
+    "description": "Lightweight and durable running shoes.",
+    "price_unit": 100,
+    "weight_unit": 1.2,
+    "category": "Clothing"
+  },
+  {
+    "id": null,
+    "name": "Women's Handbag",
+    "description": "Elegant and spacious handbag.",
+    "price_unit": 80,
+    "weight_unit": 1.1,
+    "category": "Clothing"
+  },
+  {
+    "id": null,
+    "name": "Pack of Oranges - 2kg",
+    "description": "Juicy and fresh oranges.",
+    "price_unit": 6,
+    "weight_unit": 2.0,
+    "category": "Food"
+  },
+  {
+    "id": null,
+    "name": "Smartwatch Series 8",
+    "description": "Advanced features and fitness tracking.",
+    "price_unit": 350,
+    "weight_unit": 0.25,
+    "category": "Electronics"
+  },
+  {
+    "id": null,
+    "name": "Wireless Keyboard and Mouse",
+    "description": "Ergonomic design and wireless convenience.",
+    "price_unit": 45,
+    "weight_unit": 0.8,
+    "category": "Electronics"
+  }
 ]
