@@ -9,7 +9,6 @@
         <p v-if="isWorker">
           Welcome, {{ username }}! You are logged in as a Worker.
         </p>
-        <p v-else>Please log in to access your dashboard.</p>
       </div>
 
       <div class="actions">
@@ -32,6 +31,7 @@
         </router-link>
       </div>
     </div>
+    <p v-else>Please log in to access your dashboard.</p>
   </div>
 </template>
 
