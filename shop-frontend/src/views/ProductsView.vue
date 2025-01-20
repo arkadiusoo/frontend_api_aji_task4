@@ -9,7 +9,11 @@
     <div v-else>
       <AddProductButton :isWorker="isWorker" @productAdded="fetchProducts" />
       <div v-if="products.length === 0" class="text-center mt-5">
-        <InitialProductsButton @openModal="showFileUploadModal" />
+        <InitialProductsButton
+          v-if="isWorker"
+          @openModal="showFileUploadModal"
+        />
+        <p v-else>No products available.</p>
       </div>
       <div v-else>
         <ProductsTable

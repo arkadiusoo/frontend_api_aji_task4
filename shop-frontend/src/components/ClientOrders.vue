@@ -57,16 +57,16 @@ export default {
   },
   async created() {
     try {
-      if (!this.username) {
-        throw new Error("User is not logged in.");
-      }
-
       const response1 = await fetchOrdersByUsername(this.username);
       const response2 = await getProductsByOrder();
       this.orders = response1.data;
       this.products = response2.data;
     } catch (err) {
-      console.error("Error fetching client orders:", err.message);
+      if (err.response && err.response.status === 404) {
+        console.log("User has no orders");
+      } else {
+        console.error("Error fetching client orders:", err.message);
+      }
     }
   },
   methods: {

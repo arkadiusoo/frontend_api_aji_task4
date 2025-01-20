@@ -1,7 +1,7 @@
 <template>
   <div>
     <LoginForm v-if="!isLoggedIn" :error="error" @submit="loginUser" />
-    <LogoutButton v-else :onLogout="logoutUser" />
+    <LogoutButton v-else />
     <ErrorModal v-if="error" :error="error" @clearError="clearError" />
   </div>
 </template>
@@ -50,16 +50,10 @@ export default {
         localStorage.setItem("role", role);
         localStorage.setItem("username", credentials.username);
         this.$router.push("/");
-        this.isLoggedIn = true;
-        // window.location.reload();
       } catch (err) {
         console.error("Login failed:", err.message);
         this.error = "Login failed: " + err.message;
       }
-    },
-    logoutUser() {
-      localStorage.removeItem("token");
-      this.isLoggedIn = false;
     },
     clearError() {
       this.error = null;

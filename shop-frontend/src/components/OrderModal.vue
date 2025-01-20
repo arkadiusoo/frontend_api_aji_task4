@@ -12,6 +12,7 @@
             type="text"
             class="form-control"
             required
+            disabled
           />
         </div>
         <div class="form-group">
@@ -32,6 +33,8 @@
             type="tel"
             class="form-control"
             required
+            pattern="[0-9]{9}"
+            title="Phone number should have 9 digits."
           />
         </div>
         <p>Total Price: {{ totalPrice }} USD</p>
@@ -49,12 +52,15 @@
         </div>
       </form>
     </div>
+    <ErrorModal v-if="error" :error="error" @clearError="clearError" />
   </div>
 </template>
 
 <script>
 import { createOrder } from "../api";
+import ErrorModal from "../components/ErrorModal.vue";
 export default {
+  components: { ErrorModal },
   props: {
     cart: {
       type: Array,
@@ -72,6 +78,7 @@ export default {
         email: "",
         phone_number: "",
       },
+      error: null,
     };
   },
   computed: {
@@ -98,7 +105,13 @@ export default {
         this.clearCartAfterOrder();
       } catch (error) {
         console.error("Error creating order:", error.message);
+        this.error =
+          "Error creating order, check your input data. Error message: " +
+          error.message;
       }
+    },
+    clearError() {
+      this.error = null;
     },
   },
 };

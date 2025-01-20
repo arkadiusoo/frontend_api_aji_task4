@@ -10,12 +10,6 @@
 
 <script>
 export default {
-  props: {
-    onLogout: {
-      type: Function,
-      required: true,
-    },
-  },
   computed: {
     username() {
       return localStorage.getItem("username");
@@ -23,8 +17,10 @@ export default {
   },
   methods: {
     logout() {
-      this.onLogout();
-      this.$emit("update-is-logged", true);
+      localStorage.setItem("token", "");
+      localStorage.setItem("role", "");
+      localStorage.setItem("username", "");
+      window.location.reload();
     },
   },
 };
